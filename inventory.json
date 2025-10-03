@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1759421392515,
+    "name": "Handphone",
+    "quantity": 2,
+    "price": 4500000,
+    "createdAt": "2025-10-02T16:09:52.515Z"
+  },
+  {
+    "id": 1759468552601,
+    "name": "Laptop",
+    "quantity": 2,
+    "price": 8000000,
+    "createdAt": "2025-10-03T05:15:52.601Z"
+  }
+]
