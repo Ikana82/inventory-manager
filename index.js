@@ -28,11 +28,11 @@ async function main() {
         await deleteProduct();
         break;
       case "5":
-        console.log("Terima kasih sudah menggunakan Inventory Manager!");
+        console.log("Thank you for using Inventory Manager!");
         running = false;
         break;
       default:
-        console.log("Pilihan tidak valid, coba lagi.");
+        console.log("Invalid choice, try again.");
     }
   }
   rl.close();

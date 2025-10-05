@@ -13,11 +13,11 @@ function askQuestion(query) {
 
 function displayMenu() {
   console.log("\n=== INVENTORY MANAGER ===");
-  console.log("1. Tambah Produk");
-  console.log("2. Lihat Semua Produk");
-  console.log("3. Update Produk");
-  console.log("4. Hapus Produk");
-  console.log("5. Keluar");
+  console.log("1. Add Product");
+  console.log("2. List All Products");
+  console.log("3. Update Product");
+  console.log("4. Delete Product");
+  console.log("5. Exit");
   console.log("========================");
 }
 
@@ -25,9 +25,9 @@ async function listProducts() {
   const inventory = loadInventory();
   console.log("\n--- Daftar Produk ---");
   if (inventory.length === 0) {
-    console.log("Tidak ada produk dalam inventory.");
+    console.log("No products in inventory.");
   } else {
-    console.log("ID\t\tNama\t\tQty\tHarga\t\tTanggal");
+    console.log("ID\t\tName\t\tQty\tPrice\t\tDate");
     console.log("-".repeat(70));
     inventory.forEach((p) => {
       console.log(
@@ -47,41 +47,40 @@ async function addProduct() {
     const qtyInput = await askQuestion("Jumlah: ");
     quantity = parseInt(qtyInput);
     if (!isNaN(quantity) && quantity >= 0) break;
-    console.log("Jumlah harus berupa angka positif. Coba lagi.");
+    console.log("Quantity must be a positive number. Try again.");
   }
   let price;
   while (true) {
     const priceInput = await askQuestion("Harga: ");
     price = parseFloat(priceInput);
     if (!isNaN(price) && price >= 0) break;
-    console.log("Harga harus berupa angka positif. Coba lagi.");
+    console.log("Price must be a positive number. Try again.");
   }
 
   const inventory = loadInventory();
   const product = new Product(name, quantity, price);
   inventory.push(product);
   saveInventory(inventory);
-  console.log(`Produk "${name}" berhasil ditambahkan!`);
+  console.log(`Product "${name}" added successfully!`);
 }
 
 async function updateProduct() {
   const inventory = await listProducts();
-  if (inventory.length === 0)
-    return console.log("Tidak ada produk untuk diupdate.");
+  if (inventory.length === 0) return console.log("No products to update.");
 
   const idInput = await askQuestion("Masukkan ID produk yang mau diupdate: ");
   const idToUpdate = parseInt(idInput);
   const product = inventory.find((p) => p.id === idToUpdate);
-  if (!product) return console.log("Produk tidak ditemukan.");
+  if (!product) return console.log("Product not found.");
 
   const newName = await askQuestion(
     `Nama baru (kosong = tetap ${product.name}): `
   );
   const newQty = await askQuestion(
-    `Jumlah baru (kosong = tetap ${product.quantity}): `
+    `New quantity (empty = keep ${product.quantity}): `
   );
   const newPrice = await askQuestion(
-    `Harga baru (kosong = tetap Rp${product.price}): `
+    `New price (empty = keep Rp${product.price}): `
   );
 
   if (newName.trim()) product.name = newName;
@@ -93,13 +92,12 @@ async function updateProduct() {
     product.price = newPriceParsed;
 
   saveInventory(inventory);
-  console.log("Produk berhasil diupdate!");
+  console.log("Product updated successfully!");
 }
 
 async function deleteProduct() {
   const inventory = await listProducts();
-  if (inventory.length === 0)
-    return console.log("Tidak ada produk untuk dihapus.");
+  if (inventory.length === 0) return console.log("No products to delete.");
 
   const idInput = await askQuestion("Masukkan ID produk yang mau dihapus: ");
   const idToDelete = parseInt(idInput);
@@ -107,10 +105,10 @@ async function deleteProduct() {
 
   const newInventory = inventory.filter((p) => p.id !== idToDelete);
   if (newInventory.length === inventory.length)
-    return console.log("Produk tidak ditemukan.");
+    return console.log("Product not found.");
 
   saveInventory(newInventory);
-  console.log("Produk berhasil dihapus!");
+  console.log("Product deleted successfully!");
 }
 
 module.exports = {
