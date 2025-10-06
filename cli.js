@@ -23,7 +23,7 @@ function displayMenu() {
 
 async function listProducts() {
   const inventory = loadInventory();
-  console.log("\n--- Daftar Produk ---");
+  console.log("\n--- Product List ---");
   if (inventory.length === 0) {
     console.log("No products in inventory.");
   } else {
@@ -41,17 +41,17 @@ async function listProducts() {
 }
 
 async function addProduct() {
-  const name = await askQuestion("Nama produk: ");
+  const name = await askQuestion("Product name: ");
   let quantity;
   while (true) {
-    const qtyInput = await askQuestion("Jumlah: ");
+    const qtyInput = await askQuestion("Quantity: ");
     quantity = parseInt(qtyInput);
     if (!isNaN(quantity) && quantity >= 0) break;
     console.log("Quantity must be a positive number. Try again.");
   }
   let price;
   while (true) {
-    const priceInput = await askQuestion("Harga: ");
+    const priceInput = await askQuestion("Price: ");
     price = parseFloat(priceInput);
     if (!isNaN(price) && price >= 0) break;
     console.log("Price must be a positive number. Try again.");
@@ -68,19 +68,19 @@ async function updateProduct() {
   const inventory = await listProducts();
   if (inventory.length === 0) return console.log("No products to update.");
 
-  const idInput = await askQuestion("Masukkan ID produk yang mau diupdate: ");
+  const idInput = await askQuestion("Enter the product ID to update: ");
   const idToUpdate = parseInt(idInput);
   const product = inventory.find((p) => p.id === idToUpdate);
   if (!product) return console.log("Product not found.");
 
   const newName = await askQuestion(
-    `Nama baru (kosong = tetap ${product.name}): `
+    `New name (empty = keep "${product.name}"): `
   );
   const newQty = await askQuestion(
     `New quantity (empty = keep ${product.quantity}): `
   );
   const newPrice = await askQuestion(
-    `New price (empty = keep Rp${product.price}): `
+    `New price (empty = keep $${product.price}): `
   );
 
   if (newName.trim()) product.name = newName;
@@ -99,9 +99,9 @@ async function deleteProduct() {
   const inventory = await listProducts();
   if (inventory.length === 0) return console.log("No products to delete.");
 
-  const idInput = await askQuestion("Masukkan ID produk yang mau dihapus: ");
+  const idInput = await askQuestion("Enter the product ID to delete: ");
   const idToDelete = parseInt(idInput);
-  if (isNaN(idToDelete)) return console.log("ID tidak valid.");
+  if (isNaN(idToDelete)) return console.log("Invalid ID.");
 
   const newInventory = inventory.filter((p) => p.id !== idToDelete);
   if (newInventory.length === inventory.length)
